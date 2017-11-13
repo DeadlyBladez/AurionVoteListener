@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
-
 import org.spongepowered.api.asset.Asset;
 import org.spongepowered.api.plugin.PluginContainer;
 
@@ -15,7 +14,7 @@ import ninja.leaping.configurate.loader.ConfigurationLoader;
 public class updateconfig {
 	static PluginContainer plugin;
 	static Path defaultConfig;
-	//version actuelle 6
+	//version actuelle 8
 	public static void update(int version, PluginContainer plugin, Path defaultConfig, ConfigurationLoader<CommentedConfigurationNode> loader) throws IOException {
 		updateconfig.plugin = plugin;
 		updateconfig.defaultConfig = defaultConfig;
@@ -23,10 +22,21 @@ public class updateconfig {
 		if (version <= 5) {
 			version6(loader);
 			version7(loader);
+			version8(loader);
 		}
 		if(version<=6){
 			version7(loader);
+			version8(loader);
 		}
+		if(version<=7){
+			version8(loader);
+		}
+	}
+	
+	public static void version8(ConfigurationLoader<CommentedConfigurationNode> loader) throws IOException {
+		CommentedConfigurationNode rootNode = loader.load();
+		rootNode.getNode("Version").setValue(8);
+		loader.save(rootNode);
 	}
 	
 	public static void version7(ConfigurationLoader<CommentedConfigurationNode> loader) throws IOException {

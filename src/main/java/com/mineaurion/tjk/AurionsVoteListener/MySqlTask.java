@@ -61,6 +61,7 @@ public class MySqlTask {
 			sql.modifyQuery("DROP TABLE `" + dbPrefix + TableQueue + "old`;", connection);
 		}
 
+		
 		if (!sql.tableExists(dbPrefix + TableQueue, connection)) {
 			sql.modifyQuery(
 					"CREATE TABLE `" + dbPrefix + TableQueue

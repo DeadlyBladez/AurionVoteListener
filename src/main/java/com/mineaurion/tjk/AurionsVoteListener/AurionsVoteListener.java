@@ -61,7 +61,7 @@ import ninja.leaping.configurate.loader.ConfigurationLoader;
 @Plugin(id =AurionsVoteListener.AURIONS_ID, name="AurionsVoteListener",version="1.3",authors = {"THEJean_Kevin"}, description = "A votifier listener for Sponge", dependencies = {@Dependency(id = "nuvotifier", optional = true)})
 public class AurionsVoteListener {
 	
-	public int version = 7;
+	public int version = 8;
 	public boolean old = false;
 	
 	@Inject
@@ -77,7 +77,7 @@ public class AurionsVoteListener {
     
     @Inject
     @DefaultConfig(sharedRoot = false)
-    private Path defaultConfig;
+    public Path defaultConfig;
 	
     @Inject
     @DefaultConfig(sharedRoot = false)
@@ -128,9 +128,9 @@ public class AurionsVoteListener {
 	public List<String> annoucement = new ArrayList<String>();
 	public String offlineBroadcast;
 	public String offlinePlayerMessage;
+	
 	//votetop
 	public String votetopformat="<POSITION>. <GREEN><username> - <WHITE><TOTAL>";
-	
 	public static List<String> votetopheader = new ArrayList<String>();
 	
 	
@@ -145,7 +145,6 @@ public class AurionsVoteListener {
         getLogger().info("Trying To setup Config Loader");
 		
         Asset configAsset = plugin.getAsset("aurionsvotelistener.conf").get();
-        
 
         if (Files.notExists(defaultConfig)) {
             if (configAsset != null) {
@@ -236,9 +235,9 @@ public class AurionsVoteListener {
 				 .child(reloadCmd, "reload")
 				 .build();
 		 
-		 Sponge.getCommandManager().register(this, listenerCommandSpec, "Aurions");
-		 Sponge.getCommandManager().register(this, VoteCmd, "Vote");
-		 Sponge.getCommandManager().register(this, votetopCmd, "Votetop");
+		 Sponge.getCommandManager().register(this, listenerCommandSpec, "aurions");
+		 Sponge.getCommandManager().register(this, VoteCmd, "vote");
+		 Sponge.getCommandManager().register(this, votetopCmd, "votetop");
 		 logger.info("AurionsVoteListener Enabled");
 		 
 	 }
@@ -272,6 +271,8 @@ public class AurionsVoteListener {
 		GiveChanceReward = Node.getNode("settings","GiveChanceReward").getBoolean();
 		delay = Node.getNode("settings","AnnouncementDelay").getInt();
 		cumulativevoting = Node.getNode("settings","cumulativevoting").getBoolean();
+		
+		
 		for(Entry<Object, ? extends ConfigurationNode> markers : rootNode.getNode("ExtraReward").getChildrenMap().entrySet())
 		{
 			String key = (String) markers.getKey();
@@ -285,9 +286,7 @@ public class AurionsVoteListener {
 			cumulativreward.add(Integer.parseInt(key));
 		}
 		Collections.sort(cumulativreward);
-		
-		
-		
+
 		//Message
 		voteMessage = Node.getNode("votemessage").getChildrenList().stream().map(ConfigurationNode::getString).collect(Collectors.toList());
 		messagejoin = Node.getNode("joinmessage").getChildrenList().stream().map(ConfigurationNode::getString).collect(Collectors.toList());
@@ -303,6 +302,7 @@ public class AurionsVoteListener {
 	
 	public void reloadConfig(){
 		try {
+			
 			rootNode = loader.load();
 			int versionconfig = rootNode.getNode("Version").getInt();
             loader.save(rootNode);
@@ -426,7 +426,7 @@ public class AurionsVoteListener {
 	public void onVote(VotifierEvent event){
 		Vote vote = event.getVote();
 		String player = vote.getUsername();
-		
+
 		if(AurionsVoteListener.GetInstance().onlineOnly){
 			Optional<Player> target = Sponge.getServer().getPlayer(player);
 			if(target.isPresent()){

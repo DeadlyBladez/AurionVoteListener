@@ -150,6 +150,7 @@ public class SwitchSQL {
 			
 		}
 	}
+	
 
 	public static void offline(String username, String serviceName, String timeStamp, String address) {
 		PreparedStatement sql = null;

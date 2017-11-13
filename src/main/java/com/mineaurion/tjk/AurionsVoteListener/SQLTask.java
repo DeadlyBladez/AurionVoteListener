@@ -71,6 +71,7 @@ public class SQLTask {
 	      if (!sql.tableExists(dbPrefix + TableQueue, connection)) {
 	        sql.modifyQuery("CREATE TABLE `" + dbPrefix + TableQueue+"` (`IGN` VARCHAR, `service` VARCHAR, `timestamp` VARCHAR, `ip` VARCHAR);", connection);
 	      }
+	   
 		return connection;
 	}
 }
