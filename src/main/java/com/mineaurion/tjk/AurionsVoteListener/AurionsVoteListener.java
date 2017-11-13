@@ -49,6 +49,7 @@ import com.mineaurion.tjk.AurionsVoteListener.commands.ClearqueueCmd;
 import com.mineaurion.tjk.AurionsVoteListener.commands.CleartotalsCmd;
 import com.mineaurion.tjk.AurionsVoteListener.commands.FakeVoteCommand;
 import com.mineaurion.tjk.AurionsVoteListener.commands.ForcequeueCmd;
+import com.mineaurion.tjk.AurionsVoteListener.commands.SetVoteCmd;
 import com.mineaurion.tjk.AurionsVoteListener.commands.VoteCommand;
 import com.mineaurion.tjk.AurionsVoteListener.commands.VoteTopCmd;
 import com.vexsoftware.votifier.model.Vote;
@@ -189,6 +190,16 @@ public class AurionsVoteListener {
 				 .executor(new CleartotalsCmd())
 				 .build();
 		
+		CommandSpec setVoteCmd = CommandSpec.builder()
+				 .permission("listener.admin")
+				 .description(Text.of("set vote of player"))
+				 .arguments(
+				GenericArguments.string(Text.of("player")),
+				GenericArguments.integer(Text.of("vote"))
+				)
+				 .executor(new SetVoteCmd())
+				 .build();
+		
 		CommandSpec reloadCmd = CommandSpec.builder()
 				 .permission("listener.admin")
 				 .description(Text.of("Reload your configs"))
@@ -233,6 +244,7 @@ public class AurionsVoteListener {
 				 .child(clearqueueCmd,"clearqueue")
 				 .child(forcequeueCmd,"forcequeue")
 				 .child(reloadCmd, "reload")
+				 .child(setVoteCmd,"set")
 				 .build();
 		 
 		 Sponge.getCommandManager().register(this, listenerCommandSpec, "aurions");
