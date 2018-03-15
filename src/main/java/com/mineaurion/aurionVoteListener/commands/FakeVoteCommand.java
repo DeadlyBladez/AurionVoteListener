@@ -1,4 +1,4 @@
-package com.mineaurion.tjk.AurionsVoteListener.commands;
+package com.mineaurion.aurionVoteListener.commands;
 
 
 
@@ -13,7 +13,6 @@ import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.EventContext;
 import org.spongepowered.api.text.Text;
 
-import com.mineaurion.tjk.AurionsVoteListener.AurionsVoteListener;
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.sponge.event.VotifierEvent;
 
@@ -28,14 +27,14 @@ public class FakeVoteCommand implements CommandExecutor {
 			
 			if(service == ""){
 				Vote vote = new Vote("DEFAULT", player.getName(), "localhost", String.valueOf(System.currentTimeMillis()));
-	            VotifierEvent event = new VotifierEvent(vote, Cause.builder().append(vote).append(AurionsVoteListener.GetInstance()).build(EventContext.empty()));
+	            VotifierEvent event = new VotifierEvent(vote, Cause.builder().append(player).build(EventContext.empty()));
 	            
 	            Sponge.getEventManager().post(event);
 				Sponge.getServer().getConsole().sendMessage(Text.of("Vote send"));
 			}
 			else{
 				Vote vote = new Vote(service, player.getName(), "localhost", String.valueOf(System.currentTimeMillis()));
-	            VotifierEvent event = new VotifierEvent(vote, Cause.builder().append(vote).append(AurionsVoteListener.GetInstance()).build(EventContext.empty()));
+	            VotifierEvent event = new VotifierEvent(vote, Cause.builder().append(player).build(EventContext.empty()));
 	            Sponge.getEventManager().post(event);
 				Sponge.getServer().getConsole().sendMessage(Text.of("Vote send"));
 			}
